@@ -1,41 +1,37 @@
-package com.example.gogotrips.comment.domain.entity;
+package com.example.gogotrips.shoppingcart.domain.entity;
 
-import com.example.gogotrips.publication.domain.entity.Publication;
+import com.example.gogotrips.plan.domain.entity.Plan;
 import com.example.gogotrips.shared.model.AuditModel;
 import com.example.gogotrips.traveler.domain.entity.Traveler;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
-import java.util.Date;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "comment")
+@Table(name = "shoppingcart")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment extends AuditModel {
+public class Shoppingcart extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "shoppingcart_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "publication_id")
-    private Publication publication;
+    @OneToMany
+    @JoinColumn(name = "shoppingcart_id")
+    private Collection<Plan> plans;
 
-    @NotEmpty
-    private String contenido;
+    @OneToOne
+    @JoinColumn(name = "traveler_id")
+    private Traveler traveler;
 
     @NotNull
-    private Integer calificacion;
-
+    private Integer amount;
 }

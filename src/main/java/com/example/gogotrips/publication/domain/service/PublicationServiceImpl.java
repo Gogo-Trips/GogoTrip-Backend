@@ -49,6 +49,7 @@ public class PublicationServiceImpl implements PublicationService {
             Publication publication = optionalPublication.get();
 
             publication.setContent(publicationResource.getContent());
+            publication.setTitle(publicationResource.getTitle());
 
             publication = publicationRepository.save(publication);
             return publicationMapper.entityToResponseResource(publication);

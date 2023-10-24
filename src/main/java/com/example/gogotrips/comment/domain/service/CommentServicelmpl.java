@@ -49,6 +49,7 @@ public class CommentServicelmpl implements CommentService {
             Comment comment = optionalComment.get();
 
             comment.setContenido(commentResource.getContenido());
+            comment.setCalificacion(commentResource.getCalificacion());
 
             comment = commentRepository.save(comment);
             return commentMapper.entityToResponseResource(comment);

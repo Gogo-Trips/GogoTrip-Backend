@@ -1,4 +1,4 @@
-package com.example.gogotrips.publication.resource;
+package com.example.gogotrips.plandetails.resource;
 
 import com.example.gogotrips.shared.model.AuditModel;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublicationResponseResource extends AuditModel {
+public class PlanDetailsResponseResource extends AuditModel {
     private Long id;
-    private String content;
-    private String title;
+
+    private Float price;
+
+    private String type;
+
+    private Integer amount;
 }

@@ -8,4 +8,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PublicationResource extends AuditModel {
     private String content;
+    private String title;
 }

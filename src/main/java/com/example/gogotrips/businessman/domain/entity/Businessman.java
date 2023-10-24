@@ -1,11 +1,10 @@
-package com.example.gogotrips.publication.domain.entity;
+package com.example.gogotrips.businessman.domain.entity;
 
-import com.example.gogotrips.comment.domain.entity.Comment;
 import com.example.gogotrips.forum.domain.entity.Forum;
 import com.example.gogotrips.shared.model.AuditModel;
-import com.example.gogotrips.traveler.domain.entity.Traveler;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,35 +15,38 @@ import java.util.Collection;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "publication")
+@Table(name = "businessmans")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Publication extends AuditModel {
-
+public class Businessman extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "publication_id")
+    @Column(name = "businessmans_id")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "traveler_id")
-    private Traveler traveler;
-
-    @OneToMany(mappedBy = "publication")
-    private Collection<Comment> comments;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "publications_forums",
-            joinColumns = @JoinColumn(name = "publication_id"),
+            name = "businessmans_forums",
+            joinColumns = @JoinColumn(name = "businessmans_id"),
             inverseJoinColumns = @JoinColumn(name = "forum_id")
     )
     private Collection<Forum> forums;
 
     @NotEmpty
-    private String title;
+    private String ruc;
 
     @NotEmpty
-    private String content;
+    private String companyName;
 
+    @NotEmpty
+    private String email;
+
+    @NotNull
+    private Integer phone;
+
+    @NotEmpty
+    private String services;
+
+    @NotEmpty
+    private String direction;
 }
