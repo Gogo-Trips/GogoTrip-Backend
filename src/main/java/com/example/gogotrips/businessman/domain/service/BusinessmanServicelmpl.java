@@ -5,8 +5,12 @@ import com.example.gogotrips.businessman.domain.persistence.BusinessmanRepositor
 import com.example.gogotrips.businessman.mappers.BusinessmanMapper;
 import com.example.gogotrips.businessman.resource.BusinessmanResource;
 import com.example.gogotrips.businessman.resource.BusinessmanResponseResource;
+import com.example.gogotrips.shared.exception.ResourceAlreadyExistsException;
 import com.example.gogotrips.shared.exception.ResourceNotFoundException;
 
+import com.example.gogotrips.traveler.domain.entity.Traveler;
+import com.example.gogotrips.traveler.resource.TravelerResource;
+import com.example.gogotrips.traveler.resource.TravelerResponseResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +39,11 @@ public class BusinessmanServicelmpl implements BusinessmanService{
     }
 
     @Transactional
-    @Override
     public BusinessmanResponseResource createBusinessman(BusinessmanResource businessmanResource) {
+        if (businessmanRepository.existsByEmail(businessmanResource.getEmail())) {
+            throw new ResourceAlreadyExistsException("Businessman with email already exists: " + businessmanResource.getEmail());
+        }
+
         Businessman businessman = businessmanMapper.resourceToEntity(businessmanResource);
         businessman = businessmanRepository.save(businessman);
 

@@ -8,6 +8,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PlanResource extends AuditModel {
     private String name;
-
     private String description;
 }

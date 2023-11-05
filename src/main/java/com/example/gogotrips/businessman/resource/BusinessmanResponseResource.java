@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BusinessmanResponseResource extends AuditModel {
+    private Long id;
+
     private String ruc;
 
     private String companyName;

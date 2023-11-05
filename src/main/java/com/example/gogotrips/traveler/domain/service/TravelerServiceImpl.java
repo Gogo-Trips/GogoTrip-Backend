@@ -1,5 +1,6 @@
 package com.example.gogotrips.traveler.domain.service;
 
+import com.example.gogotrips.shared.exception.ResourceAlreadyExistsException;
 import com.example.gogotrips.shared.exception.ResourceNotFoundException;
 import com.example.gogotrips.traveler.domain.entity.Traveler;
 import com.example.gogotrips.traveler.domain.persistence.TravelerRepository;
@@ -35,9 +36,12 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     @Transactional
-    @Override
-    public TravelerResponseResource createTraveler(TravelerResource travelerResource) {
-        Traveler traveler = travelerMapper.resourceToEntity(travelerResource);
+    public TravelerResponseResource createTraveler(TravelerResource customerResource) {
+        if (travelerRepository.existsByEmail(customerResource.getEmail())) {
+            throw new ResourceAlreadyExistsException("Traveler with email already exists: " + customerResource.getEmail());
+        }
+
+        Traveler traveler = travelerMapper.resourceToEntity(customerResource);
         traveler = travelerRepository.save(traveler);
 
         return travelerMapper.entityToResponseResource(traveler);

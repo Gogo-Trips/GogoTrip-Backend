@@ -1,7 +1,6 @@
 package controller;
 
 import com.example.gogotrips.plan.api.PlansController;
-import com.example.gogotrips.plan.domain.service.PlanService;
 import com.example.gogotrips.plan.domain.service.PlanServiceImpl;
 import com.example.gogotrips.plan.resource.PlanResource;
 import com.example.gogotrips.plan.resource.PlanResponseResource;
@@ -15,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.mockito.Mockito.*;
 
-public class PLanControllerTests {
+public class PLanControllerTest {
     @InjectMocks
     private PlansController plansController;
 
@@ -28,16 +27,16 @@ public class PLanControllerTests {
     }
 
     @Test
-    public void testCreatePlan() {
+    public void testCreateForum() {
         // Mock input data
-        Long planId = 1L;
+        Long forumId = 1L;
         PlanResource planDto = new PlanResource();
         planDto.setName("Hoteles en Bali");
         planDto.setDescription("En este plan encontraras todos nuestros paquetes de hoteles que ofrecemos para ti");
 
         // Mock the response from the service
         PlanResponseResource mockResponse = new PlanResponseResource();
-        mockResponse.setId(1L);
+        mockResponse.setId(forumId);
         mockResponse.setName(planDto.getName());
         mockResponse.setDescription(planDto.getDescription());
 
