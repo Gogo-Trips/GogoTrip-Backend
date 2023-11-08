@@ -14,10 +14,10 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${cashflow.openapi.dev-url}")
+    @Value("${gogotrips.openapi.dev-url}")
     private String devUrl;
 
-    @Value("${cashflow.openapi.prod-url}")
+    @Value("${gogotrips.openapi.prod-url}")
     private String prodUrl;
 
     @Bean
@@ -31,17 +31,17 @@ public class OpenAPIConfig {
         prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
-        contact.setEmail("hampcode@gmail.com");
-        contact.setName("HampCode");
-        contact.setUrl("https://www.youtube.com/@hampcode");
+        contact.setEmail("viajero@gmail.com");
+        contact.setName("Viajero");
+        contact.setUrl("https://www.tripadvisor.com./viajero");
 
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("CashFlow Management API")
+                .title("GogoTrips Management API")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints to manage tutorials.").termsOfService("https://www.youtube.com/@hampcode")
+                .description("This API is made with Java and Spring to manage forums.").termsOfService("https://www.tripadvisor.com./@gogotrips")
                 .license(mitLicense);
 
         return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
