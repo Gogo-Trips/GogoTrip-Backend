@@ -1,7 +1,6 @@
 package controller;
 
 import com.example.gogotrips.traveler.api.TravelersController;
-import com.example.gogotrips.traveler.domain.service.TravelerService;
 import com.example.gogotrips.traveler.domain.service.TravelerServiceImpl;
 import com.example.gogotrips.traveler.resource.TravelerResource;
 import com.example.gogotrips.traveler.resource.TravelerResponseResource;

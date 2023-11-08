@@ -4,7 +4,6 @@ import com.example.gogotrips.shared.exception.ResourceAlreadyExistsException;
 import com.example.gogotrips.shared.exception.ResourceNotFoundException;
 import com.example.gogotrips.traveler.domain.entity.Traveler;
 import com.example.gogotrips.traveler.domain.persistence.TravelerRepository;
-import com.example.gogotrips.traveler.domain.service.TravelerService;
 import com.example.gogotrips.traveler.domain.service.TravelerServiceImpl;
 import com.example.gogotrips.traveler.mappers.TravelerMapper;
 import com.example.gogotrips.traveler.resource.TravelerResource;

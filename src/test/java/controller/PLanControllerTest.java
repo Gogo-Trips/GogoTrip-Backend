@@ -12,6 +12,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class PLanControllerTest {
@@ -27,29 +31,66 @@ public class PLanControllerTest {
     }
 
     @Test
-    public void testCreateForum() {
-        // Mock input data
-        Long forumId = 1L;
-        PlanResource planDto = new PlanResource();
-        planDto.setName("Hoteles en Bali");
-        planDto.setDescription("En este plan encontraras todos nuestros paquetes de hoteles que ofrecemos para ti");
+    public void testCreatePlan() throws Exception {
+        PlanResource planResource = new PlanResource();
 
-        // Mock the response from the service
-        PlanResponseResource mockResponse = new PlanResponseResource();
-        mockResponse.setId(forumId);
-        mockResponse.setName(planDto.getName());
-        mockResponse.setDescription(planDto.getDescription());
+        PlanResponseResource planResponseResource = new PlanResponseResource();
 
-        when(planService.createPlan(
-                planDto
-        )).thenReturn(mockResponse);
+        when(planService.createPlan(planResource)).thenReturn(planResponseResource);
 
-        ResponseEntity<PlanResponseResource> responseEntity = plansController
-                .createPLan(planDto);
+        ResponseEntity<PlanResponseResource> responseEntity = plansController.createPLan(planResource);
 
-        assert responseEntity.getStatusCode() == HttpStatus.CREATED;
-        assert responseEntity.getBody() != null;
-        assert responseEntity.getBody().getId() != null;
-        // Add more assertions as needed
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(planResponseResource, responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetPlanById() {
+        Long planId = 1L;
+        PlanResponseResource planResponseResource = new PlanResponseResource();
+
+        when(planService.getPlanById(planId)).thenReturn(planResponseResource);
+
+        ResponseEntity<PlanResponseResource> responseEntity = plansController.getPlanById(planId);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(planResponseResource, responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetAllPLans() {
+        List<PlanResponseResource> responseDtoList = new ArrayList<>();
+
+        when(planService.getAllPlans()).thenReturn(responseDtoList);
+
+        ResponseEntity<List<PlanResponseResource>> responseEntity = plansController.getAllplans();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(responseDtoList, responseEntity.getBody());
+    }
+
+    @Test
+    public void testUpdatePLan() {
+        Long planId = 1L;
+        PlanResource planResource = new PlanResource();
+
+        PlanResponseResource planDto = new PlanResponseResource();
+
+        when(planService.updatePlan(planId, planResource)).thenReturn(planDto);
+
+        ResponseEntity<PlanResponseResource> responseEntity = plansController.updatePlan(planId, planResource);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(planDto, responseEntity.getBody());
+    }
+
+    @Test
+    public void testDeletePLan() {
+        Long planId = 1L;
+
+        ResponseEntity<Void> responseEntity = plansController.deletePlan(planId);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(planService, times(1)).deletePlan(planId);
     }
 }

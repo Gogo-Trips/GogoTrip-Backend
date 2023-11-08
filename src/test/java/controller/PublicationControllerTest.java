@@ -1,12 +1,7 @@
 package controller;
 
-import com.example.gogotrips.plan.api.PlansController;
-import com.example.gogotrips.plan.domain.service.PlanServiceImpl;
-import com.example.gogotrips.plan.resource.PlanResource;
-import com.example.gogotrips.plan.resource.PlanResponseResource;
 import com.example.gogotrips.publication.api.PublicationsController;
-import com.example.gogotrips.publication.domain.service.PublicationService;
-import com.example.gogotrips.publication.mappers.PublicationMapper;
+import com.example.gogotrips.publication.domain.service.PublicationServiceImpl;
 import com.example.gogotrips.publication.resource.PublicationResource;
 import com.example.gogotrips.publication.resource.PublicationResponseResource;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,14 +12,18 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class PublicationControllerTest {
     @InjectMocks
     private PublicationsController publicationsController;
 
     @Mock
-    private PublicationService publicationService;
+    private PublicationServiceImpl publicationService;
 
     @BeforeEach
     public void setUp() {
@@ -32,29 +31,66 @@ public class PublicationControllerTest {
     }
 
     @Test
-    public void testCreatePublication() {
-        // Mock input data
-        Long publicationId = 1L;
+    public void testCreatePublication() throws Exception {
         PublicationResource publicationResource = new PublicationResource();
-        publicationResource.setTitle("Mis gustos del hotel Paris");
-        publicationResource.setContent("Es muy bonito y acojedor");
 
-        // Mock the response from the service
-        PublicationResponseResource mockResponse = new PublicationResponseResource();
-        mockResponse.setId(publicationId);
-        mockResponse.setTitle(publicationResource.getTitle());
-        mockResponse.setContent(publicationResource.getContent());
+        PublicationResponseResource publicationResponseResource = new PublicationResponseResource();
 
-        when(publicationService.createPublication(
-                publicationResource
-        )).thenReturn(mockResponse);
+        when(publicationService.createPublication(publicationResource)).thenReturn(publicationResponseResource);
 
-        ResponseEntity<PublicationResponseResource> responseEntity = publicationsController
-                .createPublication(publicationResource);
+        ResponseEntity<PublicationResponseResource> responseEntity = publicationsController.createPublication(publicationResource);
 
-        assert responseEntity.getStatusCode() == HttpStatus.CREATED;
-        assert responseEntity.getBody() != null;
-        assert responseEntity.getBody().getId() != null;
-        // Add more assertions as needed
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(publicationResponseResource, responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetPublicationById() {
+        Long PublicationId = 1L;
+        PublicationResponseResource publicationResponseResource = new PublicationResponseResource();
+
+        when(publicationService.getPublicationById(PublicationId)).thenReturn(publicationResponseResource);
+
+        ResponseEntity<PublicationResponseResource> responseEntity = publicationsController.getPublicationById(PublicationId);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(publicationResponseResource, responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetAllPublications() {
+        List<PublicationResponseResource> responseDtoList = new ArrayList<>();
+
+        when(publicationService.getAllPublications()).thenReturn(responseDtoList);
+
+        ResponseEntity<List<PublicationResponseResource>> responseEntity = publicationsController.getAllPublications();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(responseDtoList, responseEntity.getBody());
+    }
+
+    @Test
+    public void testUpdatePublication() {
+        Long PublicationId = 1L;
+        PublicationResource publicationResource = new PublicationResource();
+
+        PublicationResponseResource PublicationDto = new PublicationResponseResource();
+
+        when(publicationService.updatePublication(PublicationId, publicationResource)).thenReturn(PublicationDto);
+
+        ResponseEntity<PublicationResponseResource> responseEntity = publicationsController.updatePublication(PublicationId, publicationResource);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(PublicationDto, responseEntity.getBody());
+    }
+
+    @Test
+    public void testDeletePublication() {
+        Long PublicationId = 1L;
+
+        ResponseEntity<Void> responseEntity = publicationsController.deletePublication(PublicationId);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(publicationService, times(1)).deletePublication(PublicationId);
     }
 }
